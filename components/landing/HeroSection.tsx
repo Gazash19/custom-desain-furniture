@@ -15,18 +15,18 @@ export function HeroSection() {
         {/* Subtle pill badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-200 text-xs sm:text-sm font-medium mb-6">
           <Sparkles size={14} className="text-amber-300" />
-          <span>Studio Visualisasi 3D & Desain Furnitur Jepara</span>
+          <span>Spesialis Desain Custom Furniture & Gambar Kerja Teknis</span>
         </div>
 
         {/* Main Heading - Clean & Editorial */}
         <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl text-white mb-6 tracking-tight max-w-4xl font-normal leading-tight">
-          Visualisasi Furnitur 3D <br />
-          <span className="italic font-light text-amber-200">Presisi & Bernilai Seni</span>
+          Jasa Desain Custom Furniture <br />
+          <span className="italic font-light text-amber-200">Presisi, Elegan & Siap Produksi</span>
         </h1>
 
         {/* Subtitle */}
         <p className="text-base sm:text-xl text-stone-200 font-light max-w-2xl mb-10 leading-relaxed">
-          Mengubah konsep furnitur kayu dan penataan interior Anda menjadi render 3D fotorealistik serta gambar kerja teknis siap produksi bengkel.
+          Wujudkan mebel impian yang pas dengan ukuran dan gaya ruangan Anda. Melayani desain 3D kitchen set, wardrobe, backdrop TV, meja makan, dan mebel custom lengkap dengan gambar kerja siap tukang.
         </p>
 
         {/* Action Buttons */}
@@ -38,7 +38,7 @@ export function HeroSection() {
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-amber-700 hover:bg-amber-800 text-white px-8 py-3.5 rounded-full font-medium shadow-lg shadow-amber-900/40 transition-all hover:scale-105 text-sm sm:text-base"
           >
             <MessageCircle size={18} />
-            <span>Konsultasi via WhatsApp</span>
+            <span>Konsultasi Desain via WhatsApp</span>
           </a>
           <Link 
             href="#portfolio"
@@ -56,11 +56,11 @@ export function HeroSection() {
           </div>
           <div className="flex items-center justify-center gap-2">
             <CheckCircle2 size={16} className="text-amber-300" />
-            <span>Pencahayaan Fotorealistik</span>
+            <span>Render 3D Fotorealistik</span>
           </div>
           <div className="flex items-center justify-center gap-2">
             <CheckCircle2 size={16} className="text-amber-300" />
-            <span>Gambar Kerja Siap Tukang</span>
+            <span>Gambar Kerja Siap Bengkel</span>
           </div>
         </div>
 

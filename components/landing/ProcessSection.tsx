@@ -4,26 +4,26 @@ export function ProcessSection() {
   const steps = [
     {
       number: '01',
-      title: 'Konsultasi Konsep',
-      description: 'Diskusikan referensi gambar, ukuran ruangan, dan estimasi waktu melalui chat WhatsApp.',
+      title: 'Konsultasi & Ukuran',
+      description: 'Diskusikan referensi foto, model furniture yang diinginkan, dan ukuran ruangan via WhatsApp.',
       icon: <MessageCircle className="w-6 h-6 text-amber-300" />
     },
     {
       number: '02',
-      title: 'Pemodelan 3D Presisi',
-      description: 'Pembuatan struktur 3D sesuai skala dimensi riil untuk memastikan proporsi furnitur akurat.',
+      title: 'Pemodelan 3D Custom',
+      description: 'Pembuatan konsep bentuk 3D sesuai proporsi ruangan dan estetika mebel kayu presisi.',
       icon: <Cuboid className="w-6 h-6 text-amber-300" />
     },
     {
       number: '03',
-      title: 'Render & Penyesuaian',
-      description: 'Aplikasi tekstur kayu, pencahayaan alami, dan sesi revisi hingga desain sesuai ekspektasi.',
+      title: 'Review & Revisi',
+      description: 'Penyesuaian tekstur serat kayu, warna finishing, aksesoris, hingga desain sesuai keinginan Anda.',
       icon: <MonitorPlay className="w-6 h-6 text-amber-300" />
     },
     {
       number: '04',
       title: 'Penyerahan File Final',
-      description: 'Penyerahan file render High-Resolution dan dokumen PDF gambar kerja siap workshop.',
+      description: 'File gambar 3D High-Res + dokumen PDF gambar kerja teknis siap diserahkan ke tukang bengkel.',
       icon: <CheckCircle2 className="w-6 h-6 text-amber-300" />
     }
   ];
@@ -34,12 +34,12 @@ export function ProcessSection() {
         
         {/* Section Header */}
         <div className="text-center mb-16 sm:mb-20 max-w-2xl mx-auto">
-          <p className="text-xs uppercase tracking-widest text-amber-400 font-semibold mb-3">Alur Kerja</p>
+          <p className="text-xs uppercase tracking-widest text-amber-400 font-semibold mb-3">Alur Pengerjaan</p>
           <h2 className="font-serif text-3xl sm:text-5xl font-normal text-white tracking-tight mb-4">
-            Tahapan Pengerjaan Rapi
+            Cara Mudah Pesan Desain Furniture
           </h2>
           <p className="text-stone-400 text-sm sm:text-base font-light leading-relaxed">
-            Transparan, terukur, dan komunikatif dari konsep awal hingga file siap produksi.
+            Proses cepat, transparan, dan komunikatif dari ide sampai desain siap dibuat.
           </p>
         </div>
 

@@ -3,25 +3,25 @@ import { Box, Ruler, Palette, ArrowRight } from "lucide-react";
 export function ServicesSection() {
   const services = [
     {
-      title: "Visualisasi 3D Fotorealistik",
-      subtitle: "Render Sudut Pandang Nyata",
-      description: "Visualisasi furnitur dengan pencahayaan dan pantulan serat kayu alami yang sangat realistis untuk katalog, promosi online, atau presentasi ke calon pembeli.",
+      title: "Desain Custom Living & Bedroom",
+      subtitle: "Sesuai Ukuran Ruangan",
+      description: "Desain custom meja makan, kursi, lemari pakaian (wardrobe), dipan tempat tidur, dan backdrop TV minimalis modern yang disesuaikan dengan dimensi ruangan.",
       icon: <Box className="w-8 h-8 text-amber-800" />,
-      tag: "4K Photorealistic"
+      tag: "Living & Bedroom"
     },
     {
-      title: "Gambar Kerja Teknis (2D)",
-      subtitle: "Blueprint Standar Workshop",
-      description: "Gambar kerja detail (tampak depan, samping, atas, serta potongan konstruksi sambungan purub) siap dieksekusi langsung oleh tukang mebel.",
-      icon: <Ruler className="w-8 h-8 text-amber-800" />,
-      tag: "Presisi Milimeter"
-    },
-    {
-      title: "Kurasi Material & Finishing",
-      subtitle: "Moodboard Kayu & Upholstery",
-      description: "Rekomendasi jenis kayu solid (jati, mahoni, trembesi) atau engineered wood, dipadukan dengan pilihan warna finishing dan bahan kain fabric premium.",
+      title: "Kitchen Set & Kabinet Ruang",
+      subtitle: "Ergonomis & Fungsional",
+      description: "Perencanaan layout dapur ergonomis, kitchen set kabinet atas & bawah, rak partisi, counter bar, dan storage multifungsi.",
       icon: <Palette className="w-8 h-8 text-amber-800" />,
-      tag: "Material Autentik"
+      tag: "Kitchen & Pantry"
+    },
+    {
+      title: "Gambar Kerja Teknis (Shop Drawing)",
+      subtitle: "Format PDF Siap Cetak",
+      description: "Gambar kerja 2D detail dengan dimensi milimeter, tampak depan-samping-atas, potongan konstruksi kayu, dan daftar kebutuhan material.",
+      icon: <Ruler className="w-8 h-8 text-amber-800" />,
+      tag: "Siap Bengkel Tukang"
     },
   ];
 
@@ -31,12 +31,12 @@ export function ServicesSection() {
         
         {/* Section Header */}
         <div className="max-w-2xl mb-16 sm:mb-20">
-          <p className="text-xs uppercase tracking-widest text-amber-800 font-semibold mb-3">Layanan Studio</p>
+          <p className="text-xs uppercase tracking-widest text-amber-800 font-semibold mb-3">Layanan Kami</p>
           <h2 className="font-serif text-3xl sm:text-5xl font-normal text-stone-900 tracking-tight mb-4">
-            Solusi Desain & Teknis
+            Solusi Desain Mebel Custom
           </h2>
           <p className="text-stone-600 text-sm sm:text-base font-light leading-relaxed">
-            Menghubungkan keindahan estetika visual dengan kepraktisan produksi mebel di bengkel kerja.
+            Dari konsep ide, sketsa kasar, hingga gambar detail siap eksekusi bengkel kayu.
           </p>
         </div>
         

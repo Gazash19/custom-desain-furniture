@@ -21,10 +21,10 @@ export function Navbar() {
         {/* Brand Logo - Warm Japandi & Teak Wood style */}
         <Link href="/" className="flex items-center space-x-2 group">
           <span className="font-serif text-2xl tracking-tight text-stone-900 font-normal">
-            Jepara<span className="font-sans font-bold text-amber-800">3D</span>
+            PAPO<span className="font-sans font-bold text-amber-800">3D</span>
           </span>
           <span className="hidden sm:inline-block text-[11px] uppercase tracking-widest text-stone-500 font-sans border-l border-stone-300 pl-2">
-            Studio Furnitur
+            Desain Custom Furniture
           </span>
         </Link>
 

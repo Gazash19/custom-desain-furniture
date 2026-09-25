@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Jepara 3D Furniture Design Studio",
-  description: "Professional 3D Furniture & Interior Design Services",
+  title: "PAPO3D — Jasa Desain Custom Furniture & Gambar Kerja",
+  description: "Jasa desain custom furniture, visualisasi 3D, dan gambar kerja teknis mebel kayu asli Jepara siap produksi tukang bengkel.",
 };
 
 export default function RootLayout({

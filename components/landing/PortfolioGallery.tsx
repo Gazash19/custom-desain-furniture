@@ -52,12 +52,12 @@ export function PortfolioGallery() {
         
         {/* Section Header - Clean & Minimalist */}
         <div className="text-center mb-14 sm:mb-18 max-w-2xl mx-auto">
-          <p className="text-xs uppercase tracking-widest text-amber-800 font-semibold mb-3">Galeri Karya 3D</p>
+          <p className="text-xs uppercase tracking-widest text-amber-800 font-semibold mb-3">Galeri Karya</p>
           <h2 className="font-serif text-3xl sm:text-5xl font-normal text-stone-900 tracking-tight mb-4">
-            Portofolio Furnitur & Ruang
+            Portofolio Desain Custom
           </h2>
           <p className="text-stone-600 text-sm sm:text-base font-light leading-relaxed">
-            Kumpulan visualisasi 3D fotorealistik pilihan yang kami rancang dengan detail proporsi kayu dan material autentik.
+            Kumpulan hasil rancangan desain mebel custom dan visualisasi 3D yang dirancang dengan detail proporsi kayu serta material autentik.
           </p>
         </div>
 

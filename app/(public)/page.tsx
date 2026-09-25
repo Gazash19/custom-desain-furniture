@@ -27,13 +27,13 @@ export default function LandingPage() {
             {/* Col 1: Brand Info */}
             <div className="md:col-span-2 space-y-4">
               <span className="font-serif text-2xl tracking-tight text-white font-normal">
-                Jepara<span className="font-sans font-bold text-amber-500">3D</span>
+                PAPO<span className="font-sans font-bold text-amber-500">3D</span>
               </span>
               <p className="text-sm text-stone-400 max-w-md leading-relaxed font-light">
-                Studio spesialis visualisasi render 3D fotorealistik dan gambar kerja teknis mebel kayu asli Jepara. Membantu desainer, bengkel workshop, dan pemilik rumah merealisasikan furnitur impian.
+                Jasa desain custom furniture dan gambar kerja teknis mebel kayu asli Jepara. Membantu pemilik rumah, interior designer, dan bengkel workshop mewujudkan mebel presisi bernilai seni tinggi.
               </p>
               <div className="text-xs text-stone-500">
-                Jepara, Jawa Tengah &bull; Melayani proyek desain seluruh Indonesia
+                Jepara, Jawa Tengah &bull; Melayani pemesanan desain seluruh Indonesia
               </div>
             </div>
 
@@ -76,7 +76,7 @@ export default function LandingPage() {
           </div>
 
           <div className="border-t border-stone-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
-            <p>© {new Date().getFullYear()} Jepara 3D Furniture Design Studio. Hak cipta dilindungi.</p>
+            <p>© {new Date().getFullYear()} PAPO3D Custom Furniture Design. Hak cipta dilindungi.</p>
             <p className="font-light">Modern &bull; Presisi &bull; Estetis</p>
           </div>
         </div>

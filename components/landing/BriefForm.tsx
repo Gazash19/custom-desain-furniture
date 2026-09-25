@@ -12,15 +12,15 @@ export function BriefForm() {
           
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 text-amber-900 border border-amber-200/60 text-xs font-semibold uppercase tracking-wider">
             <Sparkles size={14} />
-            <span>Konsultasi Langsung</span>
+            <span>Konsultasi Gratis</span>
           </div>
 
           <div className="space-y-3 max-w-2xl mx-auto">
             <h2 className="font-serif text-3xl sm:text-5xl font-normal text-stone-900 tracking-tight">
-              Wujudkan Konsep Furnitur Anda
+              Punya Rencana Bikin Mebel Custom?
             </h2>
             <p className="text-stone-600 text-sm sm:text-base font-light leading-relaxed">
-              Punya ide furnitur, sketsa kasar, atau butuh gambar kerja untuk tukang bengkel? Diskusikan langsung secara personal bersama kami via WhatsApp.
+              Kirimkan foto ruangan, coretan sketsa kasar, atau referensi Pinterest Anda. Kami bantu buatkan desain 3D dan gambar kerjanya.
             </p>
           </div>
 
@@ -33,7 +33,7 @@ export function BriefForm() {
               className="inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-base sm:text-lg shadow-xl shadow-emerald-900/20 hover:scale-105 transition-all duration-300"
             >
               <MessageCircle size={22} />
-              <span>Hubungi via WhatsApp</span>
+              <span>Konsultasi via WhatsApp</span>
               <ArrowRight size={18} />
             </a>
             <p className="text-xs text-stone-400 mt-3 font-light">
@@ -46,20 +46,20 @@ export function BriefForm() {
             <div className="p-4 rounded-2xl bg-stone-50 border border-stone-100 space-y-1">
               <div className="flex items-center gap-2 text-stone-900 font-medium text-sm">
                 <MessageCircle size={16} className="text-emerald-700" />
-                <span>Konsultasi Gratis</span>
+                <span>Konsultasi & Estimasi Cepat</span>
               </div>
               <p className="text-xs text-stone-500 font-light leading-relaxed">
-                Tanya estimasi harga jasa dan waktu pengerjaan tanpa komitmen.
+                Diskusikan kebutuhan desain dan estimasi biaya pengerjaan tanpa komitmen awal.
               </p>
             </div>
 
             <div className="p-4 rounded-2xl bg-stone-50 border border-stone-100 space-y-1">
               <div className="flex items-center gap-2 text-stone-900 font-medium text-sm">
                 <MapPin size={16} className="text-amber-800" />
-                <span>Asli Jepara</span>
+                <span>Keahlian Asli Jepara</span>
               </div>
               <p className="text-xs text-stone-500 font-light leading-relaxed">
-                Berakar dari tradisi mebel & ukir kayu Jepara dengan standar 3D modern.
+                Pemahaman mendalam konstruksi kayu solid & mebel modern berstandar ekspor.
               </p>
             </div>
 
@@ -69,7 +69,7 @@ export function BriefForm() {
                 <span>Respon Ramah & Cepat</span>
               </div>
               <p className="text-xs text-stone-500 font-light leading-relaxed">
-                Senin - Sabtu (08.00 - 21.00 WIB). Siap melayani order seluruh Indonesia.
+                Senin - Sabtu (08.00 - 21.00 WIB). Siap melayani pemesanan desain dari seluruh kota di Indonesia.
               </p>
             </div>
           </div>
