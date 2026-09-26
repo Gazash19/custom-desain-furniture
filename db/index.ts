@@ -1,11 +1,8 @@
-import { config } from "dotenv";
-config({ path: ".env.local" });
-
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
 
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/jepara_db';
+const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/postgres';
 
 // Use global singleton in development to prevent connection exhaustion in Next.js hot-reloading
 declare global {
@@ -16,7 +13,7 @@ declare global {
 export const client = globalThis._postgresClient || postgres(connectionString, { 
   prepare: false, 
   ssl: 'require',
-  max: 3,
+  max: 5,
   idle_timeout: 20,
   connect_timeout: 10
 });
