@@ -6,6 +6,28 @@ import { dummyPortfolios } from '@/lib/data-dummy';
 import { desc, eq } from 'drizzle-orm';
 import { verifySessionToken, ADMIN_COOKIE_NAME } from '@/lib/auth';
 
+/**
+ * Ekstraksi token admin_session baik dari next/headers cookies() maupun raw request headers
+ */
+async function getAdminToken(request: Request): Promise<string | undefined> {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
+    if (token) return token;
+  } catch {
+    // Abaikan jika pemanggilan cookies() di context tertentu gagal
+  }
+
+  // Fallback: baca langsung dari header cookie
+  const cookieHeader = request.headers.get('cookie') || '';
+  const match = cookieHeader.match(new RegExp(`(?:^|; )${ADMIN_COOKIE_NAME}=([^;]*)`));
+  if (match) {
+    return decodeURIComponent(match[1]);
+  }
+
+  return undefined;
+}
+
 export async function GET() {
   try {
     const data = await db.select().from(portfolios).orderBy(desc(portfolios.createdAt));
@@ -23,14 +45,12 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    // Verifikasi keamanan sesi admin
-    const cookieStore = await cookies();
-    const sessionToken = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
+    const sessionToken = await getAdminToken(request);
     const isAuthorized = await verifySessionToken(sessionToken);
 
     if (!isAuthorized) {
       return NextResponse.json(
-        { error: 'Akses ditolak: Anda harus login sebagai admin untuk menambah karya.' },
+        { error: 'Sesi login telah berakhir atau belum terotentikasi. Silakan login kembali.' },
         { status: 401 }
       );
     }
@@ -46,33 +66,34 @@ export async function POST(request: Request) {
     const images = imageUrl ? [imageUrl] : ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=800'];
 
     const newPortfolio = await db.insert(portfolios).values({
-      title,
+      title: title.trim(),
       slug,
       category,
-      style: style || 'Modern',
-      softwareUsed: softwareUsed || '3ds Max, Corona Renderer',
+      style: style?.trim() || 'Modern',
+      softwareUsed: softwareUsed?.trim() || '3ds Max, Corona Renderer',
       images,
-      description: description || '',
+      description: description?.trim() || '',
       isFeatured: true,
     }).returning();
 
     return NextResponse.json({ success: true, data: newPortfolio[0] }, { status: 201 });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error inserting portfolio:', error);
-    return NextResponse.json({ error: 'Gagal menambahkan portofolio' }, { status: 500 });
+    return NextResponse.json(
+      { error: error?.message || 'Gagal menambahkan portofolio ke database' },
+      { status: 500 }
+    );
   }
 }
 
 export async function DELETE(request: Request) {
   try {
-    // Verifikasi keamanan sesi admin
-    const cookieStore = await cookies();
-    const sessionToken = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
+    const sessionToken = await getAdminToken(request);
     const isAuthorized = await verifySessionToken(sessionToken);
 
     if (!isAuthorized) {
       return NextResponse.json(
-        { error: 'Akses ditolak: Anda harus login sebagai admin untuk menghapus karya.' },
+        { error: 'Sesi login telah berakhir atau belum terotentikasi. Silakan login kembali.' },
         { status: 401 }
       );
     }
@@ -84,10 +105,20 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'ID portofolio dibutuhkan' }, { status: 400 });
     }
 
-    await db.delete(portfolios).where(eq(portfolios.id, id));
+    // Validasi apakah id berupa UUID valid (karena kolom id di database bertipe UUID)
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+
+    if (isUuid) {
+      await db.delete(portfolios).where(eq(portfolios.id, id));
+    }
+
+    // Jika bukan UUID (misalnya item dummy bawaan p1/p2), kembalikan success agar UI langsung menghapusnya
     return NextResponse.json({ success: true, message: 'Portofolio berhasil dihapus' });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error deleting portfolio:', error);
-    return NextResponse.json({ error: 'Gagal menghapus portofolio' }, { status: 500 });
+    return NextResponse.json(
+      { error: error?.message || 'Gagal menghapus portofolio' },
+      { status: 500 }
+    );
   }
 }

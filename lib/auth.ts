@@ -1,15 +1,19 @@
 // lib/auth.ts
 // Modul otentikasi admin berbasis Web Crypto API & Signed Cookies (Universal Edge & Node.js)
 
-const SECRET_KEY = process.env.ADMIN_SESSION_SECRET || 'papo3d_secret_key_jepara_2026_custom_furniture';
 export const ADMIN_COOKIE_NAME = 'admin_session';
+
+function getSecretKey(): string {
+  return process.env.ADMIN_SESSION_SECRET || 'papo3d_secret_key_jepara_2026_custom_furniture';
+}
 
 /**
  * Menghasilkan hash SHA-256 menggunakan Web Crypto API standar
  */
 async function generateSignature(dataText: string): Promise<string> {
   const encoder = new TextEncoder();
-  const data = encoder.encode(`${dataText}:${SECRET_KEY}`);
+  const secret = getSecretKey();
+  const data = encoder.encode(`${dataText}:${secret}`);
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');

@@ -96,12 +96,15 @@ export default function PortfolioTable() {
 
   const handleAddSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formTitle) return;
+    if (!formTitle.trim()) {
+      alert('Judul desain atau nama mebel wajib diisi.');
+      return;
+    }
 
     setIsSubmitting(true);
     try {
       if (!formImageUrl) {
-        alert('Silakan pilih foto render terlebih dahulu (upload dari laptop atau tempel link Google Drive).');
+        alert('Silakan tempel link foto render terlebih dahulu (link Google Drive atau URL gambar).');
         setIsSubmitting(false);
         return;
       }
@@ -110,17 +113,20 @@ export default function PortfolioTable() {
       const res = await fetch('/api/portfolios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
-          title: formTitle,
+          title: formTitle.trim(),
           category: formCategory,
           style: formStyle.trim() || 'Modern Woodcraft',
           softwareUsed: formSoftware.trim() || '3ds Max, Corona Renderer',
           imageUrl: finalImageUrl,
-          description: formDescription,
+          description: formDescription.trim(),
         }),
       });
 
-      if (res.ok) {
+      const result = await res.json().catch(() => ({}));
+
+      if (res.ok && result.success) {
         setFormTitle('');
         setFormStyle('');
         setFormSoftware('');
@@ -130,13 +136,19 @@ export default function PortfolioTable() {
         setIsDriveDetected(false);
         setImageLoadError(false);
         setIsAddModalOpen(false);
-        fetchPortfolios();
+        await fetchPortfolios();
+        alert('Karya portofolio baru berhasil ditambahkan!');
       } else {
-        alert('Gagal menambahkan karya ke database. Periksa koneksi Supabase.');
+        if (res.status === 401) {
+          alert('Sesi login admin telah berakhir. Anda akan diarahkan ke halaman login.');
+          window.location.href = '/admin/login';
+        } else {
+          alert(result.error || 'Gagal menambahkan karya ke database. Periksa data Anda.');
+        }
       }
     } catch (err) {
       console.error('Error adding portfolio:', err);
-      alert('Terjadi kesalahan koneksi.');
+      alert('Terjadi kesalahan jaringan atau koneksi server.');
     } finally {
       setIsSubmitting(false);
     }
@@ -147,16 +159,25 @@ export default function PortfolioTable() {
 
     setDeletingId(id);
     try {
-      const res = await fetch(`/api/portfolios?id=${id}`, {
+      const res = await fetch(`/api/portfolios?id=${encodeURIComponent(id)}`, {
         method: 'DELETE',
+        credentials: 'include',
       });
-      if (res.ok) {
+      const result = await res.json().catch(() => ({}));
+
+      if (res.ok && result.success) {
         setPortfolios(prev => prev.filter(item => item.id !== id));
       } else {
-        alert('Gagal menghapus karya.');
+        if (res.status === 401) {
+          alert('Sesi login admin telah berakhir. Anda akan diarahkan ke halaman login.');
+          window.location.href = '/admin/login';
+        } else {
+          alert(result.error || 'Gagal menghapus karya.');
+        }
       }
     } catch (err) {
       console.error('Error deleting portfolio:', err);
+      alert('Terjadi kesalahan jaringan saat menghapus karya.');
     } finally {
       setDeletingId(null);
     }
