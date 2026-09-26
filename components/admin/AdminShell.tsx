@@ -2,20 +2,43 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { 
   LayoutDashboard, 
   Image as ImageIcon, 
   ExternalLink, 
   Menu, 
-  X,
+  X, 
   Sparkles,
-  PlusCircle
+  LogOut 
 } from 'lucide-react';
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  // Jika di halaman login, tampilkan langsung tanpa shell dashboard
+  if (pathname === '/admin/login') {
+    return <main className="min-h-screen bg-[#faf8f5]">{children}</main>;
+  }
+
+  const handleLogout = async () => {
+    if (confirm('Apakah Anda yakin ingin keluar dari panel admin?')) {
+      setLoggingOut(true);
+      try {
+        await fetch('/api/admin/logout', { method: 'POST' });
+        router.push('/admin/login');
+        router.refresh();
+      } catch (err) {
+        console.error('Logout error:', err);
+        router.push('/admin/login');
+      } finally {
+        setLoggingOut(false);
+      }
+    }
+  };
 
   const navItems = [
     { name: 'Dasbor Utama', href: '/admin', icon: LayoutDashboard },
@@ -36,17 +59,31 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         </button>
 
         <div className="flex items-center space-x-2">
-          <span className="font-serif text-lg tracking-tight text-white">Jepara<span className="font-sans font-bold text-amber-500">3D</span></span>
-          <span className="text-[10px] uppercase font-semibold bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">Admin</span>
+          <span className="font-serif text-lg tracking-tight text-white">
+            PAPO<span className="font-sans font-bold text-amber-500">3D</span>
+          </span>
+          <span className="text-[10px] uppercase font-semibold bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">
+            Admin
+          </span>
         </div>
 
-        <Link
-          href="/"
-          className="text-xs text-stone-300 hover:text-white flex items-center gap-1 bg-stone-800 px-2.5 py-1.5 rounded-md transition-colors"
-        >
-          <ExternalLink size={14} />
-          <span>Web</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/"
+            className="text-xs text-stone-300 hover:text-white flex items-center gap-1 bg-stone-800 px-2.5 py-1.5 rounded-md transition-colors"
+          >
+            <ExternalLink size={13} />
+            <span>Web</span>
+          </Link>
+          <button
+            onClick={handleLogout}
+            disabled={loggingOut}
+            className="text-xs text-red-300 hover:text-white flex items-center gap-1 bg-red-950/60 border border-red-800/50 px-2 py-1.5 rounded-md transition-colors"
+            title="Keluar"
+          >
+            <LogOut size={13} />
+          </button>
+        </div>
       </header>
 
       {/* Mobile Backdrop Overlay */}
@@ -68,7 +105,9 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         <div className="p-6 border-b border-stone-800 flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-serif text-2xl tracking-tight text-white">Jepara<span className="font-sans font-bold text-amber-500">3D</span></span>
+              <span className="font-serif text-2xl tracking-tight text-white">
+                PAPO<span className="font-sans font-bold text-amber-500">3D</span>
+              </span>
             </div>
             <div className="flex items-center gap-1.5 mt-1">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -111,11 +150,11 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         </nav>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-stone-800 space-y-3">
+        <div className="p-4 border-t border-stone-800 space-y-2.5">
           <div className="bg-stone-800/80 rounded-xl p-3 border border-stone-700/50">
             <div className="flex items-center gap-2 text-xs font-medium text-stone-300 mb-1">
               <Sparkles size={14} className="text-amber-400" />
-              <span>Jepara 3D Studio</span>
+              <span>PAPO3D Studio</span>
             </div>
             <p className="text-[11px] text-stone-400 leading-tight">Database Supabase terhubung aktif untuk katalog portofolio.</p>
           </div>
@@ -124,9 +163,19 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             href="/" 
             className="flex items-center justify-center space-x-2 px-4 py-2.5 w-full rounded-xl bg-stone-800 text-stone-300 hover:text-white hover:bg-stone-700 transition-colors text-xs font-semibold"
           >
-            <ExternalLink size={15} />
+            <ExternalLink size={14} />
             <span>Lihat Website Depan</span>
           </Link>
+
+          {/* Tombol Logout Aman */}
+          <button 
+            onClick={handleLogout}
+            disabled={loggingOut}
+            className="flex items-center justify-center space-x-2 px-4 py-2.5 w-full rounded-xl bg-red-950/40 text-red-300 hover:bg-red-900/60 hover:text-white border border-red-900/40 transition-colors text-xs font-semibold cursor-pointer disabled:opacity-50"
+          >
+            <LogOut size={14} />
+            <span>{loggingOut ? 'Keluar...' : 'Keluar (Logout)'}</span>
+          </button>
         </div>
       </aside>
 

@@ -42,6 +42,27 @@ export function PortfolioGallery() {
       });
   }, []);
 
+  // Lock body scroll saat modal foto terbuka & dengarkan tombol Escape
+  useEffect(() => {
+    if (selectedItem) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          setSelectedItem(null);
+        }
+      };
+
+      window.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [selectedItem]);
+
   const filteredPortfolios = activeCategory === "Semua" 
     ? portfolios 
     : portfolios.filter(p => p.category.toLowerCase() === activeCategory.toLowerCase());
@@ -141,34 +162,39 @@ export function PortfolioGallery() {
 
       {/* Clean Modal Lightbox Preview */}
       {selectedItem && (
-        <div className="fixed inset-0 z-50 bg-stone-950/75 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[92vh]">
+        <div 
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setSelectedItem(null);
+          }}
+          className="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
+        >
+          <div className="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200 flex flex-col my-auto max-h-[90vh]">
             
             {/* Modal Image Header */}
-            <div className="relative aspect-[16/10] bg-stone-900 w-full overflow-hidden">
+            <div className="relative bg-stone-950 w-full overflow-hidden flex items-center justify-center max-h-[48vh] sm:max-h-[52vh]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src={formatImageUrl(selectedItem.images[0])} 
                 alt={selectedItem.title} 
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover" 
+                className="w-full h-full max-h-[48vh] sm:max-h-[52vh] object-contain sm:object-cover" 
               />
               <button
                 onClick={() => setSelectedItem(null)}
-                className="absolute top-4 right-4 p-2.5 rounded-full bg-stone-900/60 text-white hover:bg-stone-900 transition-colors"
+                className="absolute top-4 right-4 p-2.5 rounded-full bg-stone-900/80 hover:bg-stone-900 text-white transition-all shadow-md z-20"
                 aria-label="Tutup"
               >
                 <X size={20} />
               </button>
-              <div className="absolute bottom-4 left-5">
-                <span className="px-3.5 py-1.5 rounded-full bg-stone-900/80 text-white text-xs font-medium backdrop-blur-md">
+              <div className="absolute bottom-4 left-5 z-10">
+                <span className="px-3.5 py-1.5 rounded-full bg-stone-900/85 text-white text-xs font-medium backdrop-blur-md shadow-md">
                   {selectedItem.category} &bull; {selectedItem.style}
                 </span>
               </div>
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 sm:p-8 overflow-y-auto space-y-4">
+            <div className="p-5 sm:p-7 overflow-y-auto space-y-4">
               <div>
                 <h3 className="font-serif text-2xl sm:text-3xl text-stone-900 font-normal">{selectedItem.title}</h3>
                 <p className="text-xs sm:text-sm text-stone-500 mt-1 font-light">
@@ -182,7 +208,7 @@ export function PortfolioGallery() {
                 </p>
               )}
 
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-stone-100">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-stone-100">
                 <p className="text-xs text-stone-500 font-light">
                   Ingin membuat desain furnitur dengan konsep serupa?
                 </p>

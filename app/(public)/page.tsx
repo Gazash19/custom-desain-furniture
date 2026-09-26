@@ -5,7 +5,7 @@ import { ProcessSection } from "@/components/landing/ProcessSection";
 import { PortfolioGallery } from "@/components/landing/PortfolioGallery";
 import { BriefForm } from "@/components/landing/BriefForm";
 import Link from "next/link";
-import { ShieldCheck, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 
 export default function LandingPage() {
   return (
@@ -48,9 +48,9 @@ export default function LandingPage() {
               </ul>
             </div>
 
-            {/* Col 3: Akses Studio */}
+            {/* Col 3: Konsultasi & Layanan */}
             <div className="space-y-3">
-              <h4 className="text-xs font-semibold text-white uppercase tracking-wider">Akses Langsung</h4>
+              <h4 className="text-xs font-semibold text-white uppercase tracking-wider">Konsultasi Desain</h4>
               <div className="space-y-2.5">
                 <a 
                   href="https://wa.me/qr/BMNBVD4FHIRNO1"
@@ -61,15 +61,9 @@ export default function LandingPage() {
                   <MessageCircle size={15} />
                   <span>Chat WhatsApp Resmi</span>
                 </a>
-                <div>
-                  <Link 
-                    href="/admin" 
-                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white border border-stone-700/60 transition-all text-xs font-medium mt-2"
-                  >
-                    <ShieldCheck size={14} className="text-amber-400" />
-                    <span>Panel Admin Portofolio</span>
-                  </Link>
-                </div>
+                <p className="text-xs text-stone-500 font-light leading-relaxed">
+                  Buka setiap Senin - Sabtu (08.00 - 21.00 WIB) untuk konsultasi ukuran, estimasi, dan konsep mebel.
+                </p>
               </div>
             </div>
 

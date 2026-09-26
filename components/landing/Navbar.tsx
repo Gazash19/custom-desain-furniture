@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, MessageCircle, ShieldCheck } from 'lucide-react';
+import { Menu, X, MessageCircle } from 'lucide-react';
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -51,15 +51,6 @@ export function Navbar() {
               <MessageCircle size={15} />
               <span>Chat WhatsApp</span>
             </a>
-
-            {/* Subtle Admin Link */}
-            <Link 
-              href="/admin" 
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-stone-600 border border-stone-300 rounded-full hover:border-stone-500 hover:text-stone-900 transition-all"
-            >
-              <ShieldCheck size={14} />
-              <span>Admin</span>
-            </Link>
           </div>
         </div>
 
@@ -98,7 +89,7 @@ export function Navbar() {
               {link.name}
             </Link>
           ))}
-          <div className="pt-3 border-t border-stone-200 space-y-2">
+          <div className="pt-3 border-t border-stone-200">
             <a
               href="https://wa.me/qr/BMNBVD4FHIRNO1"
               target="_blank"
@@ -108,14 +99,6 @@ export function Navbar() {
               <MessageCircle size={17} />
               <span>Hubungi via WhatsApp</span>
             </a>
-            <Link
-              href="/admin"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 w-full py-2.5 border border-stone-300 text-stone-700 rounded-xl text-sm font-medium hover:bg-stone-100 transition-colors"
-            >
-              <ShieldCheck size={16} />
-              <span>Panel Admin Portofolio</span>
-            </Link>
           </div>
         </div>
       )}

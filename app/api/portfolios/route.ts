@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { db } from '@/db';
 import { portfolios } from '@/db/schema';
 import { dummyPortfolios } from '@/lib/data-dummy';
 import { desc, eq } from 'drizzle-orm';
+import { verifySessionToken, ADMIN_COOKIE_NAME } from '@/lib/auth';
 
 export async function GET() {
   try {
@@ -21,6 +23,18 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    // Verifikasi keamanan sesi admin
+    const cookieStore = await cookies();
+    const sessionToken = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
+    const isAuthorized = await verifySessionToken(sessionToken);
+
+    if (!isAuthorized) {
+      return NextResponse.json(
+        { error: 'Akses ditolak: Anda harus login sebagai admin untuk menambah karya.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const { title, category, style, softwareUsed, imageUrl, description } = body;
 
@@ -51,6 +65,18 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    // Verifikasi keamanan sesi admin
+    const cookieStore = await cookies();
+    const sessionToken = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
+    const isAuthorized = await verifySessionToken(sessionToken);
+
+    if (!isAuthorized) {
+      return NextResponse.json(
+        { error: 'Akses ditolak: Anda harus login sebagai admin untuk menghapus karya.' },
+        { status: 401 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
