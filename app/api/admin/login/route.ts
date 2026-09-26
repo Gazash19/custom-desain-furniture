@@ -1,21 +1,28 @@
 import { NextResponse } from 'next/server';
-import { validateAdminPassword, createSessionToken, ADMIN_COOKIE_NAME } from '@/lib/auth';
+import { validateAdminCredentials, createSessionToken, ADMIN_COOKIE_NAME } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { password } = body;
+    const { username, password } = body;
 
-    if (!password || typeof password !== 'string') {
+    if (!username || typeof username !== 'string' || !username.trim()) {
+      return NextResponse.json(
+        { error: 'Username wajib diisi' },
+        { status: 400 }
+      );
+    }
+
+    if (!password || typeof password !== 'string' || !password.trim()) {
       return NextResponse.json(
         { error: 'Kata sandi wajib diisi' },
         { status: 400 }
       );
     }
 
-    if (!validateAdminPassword(password)) {
+    if (!validateAdminCredentials(username, password)) {
       return NextResponse.json(
-        { error: 'Kata sandi salah. Silakan periksa kembali.' },
+        { error: 'Username atau kata sandi salah. Silakan periksa kembali.' },
         { status: 401 }
       );
     }

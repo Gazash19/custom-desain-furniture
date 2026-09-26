@@ -45,6 +45,18 @@ export async function verifySessionToken(token: string | undefined | null): Prom
 }
 
 /**
+ * Memvalidasi kredensial admin (username dan kata sandi) dari environment
+ */
+export function validateAdminCredentials(inputUsername: string, inputPassword: string): boolean {
+  const correctUsername = process.env.ADMIN_USERNAME || 'admin';
+  const correctPassword = process.env.ADMIN_PASSWORD || 'adminpapo3d';
+  return (
+    inputUsername.trim().toLowerCase() === correctUsername.trim().toLowerCase() &&
+    inputPassword.trim() === correctPassword.trim()
+  );
+}
+
+/**
  * Memvalidasi kata sandi input dengan kata sandi admin di environment
  */
 export function validateAdminPassword(inputPassword: string): boolean {

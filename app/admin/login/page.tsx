@@ -3,13 +3,14 @@
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Lock, Eye, EyeOff, ArrowRight, ArrowLeft, ShieldCheck, Sparkles } from 'lucide-react';
+import { Lock, User, Eye, EyeOff, ArrowRight, ArrowLeft, ShieldCheck } from 'lucide-react';
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTarget = searchParams.get('from') || '/admin/portfolio';
 
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,8 +18,8 @@ function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!password.trim()) {
-      setErrorMsg('Masukkan kata sandi pengelola.');
+    if (!username.trim() || !password.trim()) {
+      setErrorMsg('Harap masukkan username dan kata sandi.');
       return;
     }
 
@@ -29,7 +30,7 @@ function LoginForm() {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await res.json();
@@ -39,7 +40,7 @@ function LoginForm() {
         router.push(redirectTarget);
         router.refresh();
       } else {
-        setErrorMsg(data.error || 'Kata sandi salah. Silakan coba kembali.');
+        setErrorMsg(data.error || 'Username atau kata sandi salah. Silakan coba kembali.');
       }
     } catch (err) {
       console.error('Error login:', err);
@@ -79,7 +80,7 @@ function LoginForm() {
         <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200/60 text-xs text-stone-600 flex items-start gap-2.5">
           <Lock size={16} className="text-amber-800 shrink-0 mt-0.5" />
           <p className="leading-relaxed font-light">
-            Halaman ini dilindungi kata sandi pengelola. Hanya pemilik studio yang memiliki izin untuk menambah atau mengedit portofolio.
+            Halaman ini dilindungi otentikasi pengelola. Masukkan <strong>Username</strong> dan <strong>Kata Sandi</strong> untuk mengelola katalog karya.
           </p>
         </div>
 
@@ -91,20 +92,45 @@ function LoginForm() {
         )}
 
         {/* Login Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="space-y-2 text-left">
-            <label htmlFor="admin-password" className="block text-xs font-semibold text-stone-700 uppercase tracking-wider">
-              Kata Sandi Admin
+        <form onSubmit={handleSubmit} className="space-y-4">
+          
+          {/* Username Input */}
+          <div className="space-y-1.5 text-left">
+            <label htmlFor="admin-username" className="block text-xs font-semibold text-stone-700 uppercase tracking-wider">
+              Username Admin
             </label>
             <div className="relative">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400">
+                <User size={17} />
+              </span>
+              <input
+                id="admin-username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Masukkan username..."
+                autoFocus
+                className="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-[#faf8f5] border border-stone-300 focus:border-amber-700 focus:bg-white focus:outline-hidden text-sm text-stone-900 placeholder:text-stone-400 transition-all"
+              />
+            </div>
+          </div>
+
+          {/* Password Input */}
+          <div className="space-y-1.5 text-left">
+            <label htmlFor="admin-password" className="block text-xs font-semibold text-stone-700 uppercase tracking-wider">
+              Kata Sandi
+            </label>
+            <div className="relative">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400">
+                <Lock size={17} />
+              </span>
               <input
                 id="admin-password"
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Masukkan kata sandi..."
-                autoFocus
-                className="w-full px-4 py-3.5 pr-11 rounded-2xl bg-[#faf8f5] border border-stone-300 focus:border-amber-700 focus:bg-white focus:outline-hidden text-sm text-stone-900 placeholder:text-stone-400 transition-all"
+                className="w-full pl-10 pr-11 py-3.5 rounded-2xl bg-[#faf8f5] border border-stone-300 focus:border-amber-700 focus:bg-white focus:outline-hidden text-sm text-stone-900 placeholder:text-stone-400 transition-all"
               />
               <button
                 type="button"
@@ -117,23 +143,25 @@ function LoginForm() {
             </div>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3.5 px-6 rounded-2xl bg-stone-900 hover:bg-stone-800 text-white font-medium text-sm transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
-          >
-            {loading ? (
-              <span className="inline-flex items-center gap-2">
-                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                <span>Memverifikasi...</span>
-              </span>
-            ) : (
-              <>
-                <span>Masuk ke Panel Admin</span>
-                <ArrowRight size={16} />
-              </>
-            )}
-          </button>
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3.5 px-6 rounded-2xl bg-stone-900 hover:bg-stone-800 text-white font-medium text-sm transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
+            >
+              {loading ? (
+                <span className="inline-flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                  <span>Memverifikasi...</span>
+                </span>
+              ) : (
+                <>
+                  <span>Masuk ke Panel Admin</span>
+                  <ArrowRight size={16} />
+                </>
+              )}
+            </button>
+          </div>
         </form>
 
         {/* Back Link */}
