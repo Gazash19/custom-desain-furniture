@@ -62,7 +62,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Judul dan Kategori wajib diisi' }, { status: 400 });
     }
 
-    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + Date.now();
+    const baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') || 'desain';
+    const slug = `${baseSlug}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const images = imageUrl ? [imageUrl] : ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=800'];
 
     const newPortfolio = await db.insert(portfolios).values({
