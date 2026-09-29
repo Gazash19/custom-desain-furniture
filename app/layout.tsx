@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className={`${jakarta.variable} ${outfit.variable}`}>
-      <body className="font-sans bg-[#0B0F17] text-slate-100 min-h-screen">{children}</body>
+      <body className="font-sans bg-[#F4F0EB] text-[#1C1917] min-h-screen">{children}</body>
     </html>
   );
 }

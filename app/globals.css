@@ -36,7 +36,7 @@ html {
     @apply border-border;
   }
   body {
-    @apply bg-[#0c0f17] text-slate-100 font-sans antialiased selection:bg-amber-500 selection:text-slate-950;
+    @apply bg-[#F4F0EB] text-[#1C1917] font-sans antialiased selection:bg-amber-700 selection:text-white;
   }
 }
 

@@ -10,7 +10,7 @@ import { MessageCircle, Box, MapPin, Clock, ArrowUpRight } from "lucide-react";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#0B0F17] text-slate-100 selection:bg-amber-500 selection:text-slate-950 font-sans">
+    <div className="min-h-screen bg-[#F4F0EB] text-[#1C1917] selection:bg-amber-700 selection:text-white font-sans">
       <Navbar />
       
       <main>
@@ -22,28 +22,28 @@ export default function LandingPage() {
         <BriefForm />
       </main>
 
-      {/* Modern Luxury Studio Footer (Bootstrap Agency Style) */}
-      <footer className="bg-slate-950 text-slate-400 border-t border-slate-800/80 pt-16 sm:pt-20 pb-12">
+      {/* Warm Balanced Footer */}
+      <footer className="bg-[#1C1917] text-stone-400 border-t border-[#292524] pt-16 sm:pt-20 pb-12">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-14">
             
             {/* Col 1: Brand Info */}
             <div className="md:col-span-2 space-y-4">
               <Link href="/" className="inline-flex items-center gap-2.5 group">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-slate-950 shadow-md">
-                  <Box className="w-5 h-5 text-slate-950 stroke-[2.5]" />
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-700 to-amber-900 flex items-center justify-center text-white shadow-md">
+                  <Box className="w-5 h-5 text-amber-100 stroke-[2.5]" />
                 </div>
                 <span className="font-heading text-2xl font-bold tracking-tight text-white">
-                  PAPO<span className="text-amber-400">3D</span>
+                  PAPO<span className="text-amber-500">3D</span>
                 </span>
               </Link>
 
-              <p className="text-sm text-slate-400 max-w-md leading-relaxed font-light">
+              <p className="text-sm text-stone-400 max-w-md leading-relaxed font-light">
                 Studio jasa desain custom furniture, visualisasi 3D photorealistic, dan gambar kerja teknis (shop drawing) mebel kayu asli sentra Jepara. Membantu pemilik rumah, desainer interior, dan workshop mewujudkan mebel presisi siap produksi.
               </p>
               
-              <div className="flex items-center gap-2 text-xs text-slate-400 font-light">
-                <MapPin size={14} className="text-amber-400 shrink-0" />
+              <div className="flex items-center gap-2 text-xs text-stone-400 font-light">
+                <MapPin size={14} className="text-amber-500 shrink-0" />
                 <span>Jepara, Jawa Tengah &bull; Melayani pemesanan desain dari seluruh Indonesia</span>
               </div>
             </div>
@@ -79,8 +79,8 @@ export default function LandingPage() {
                   <ArrowUpRight size={14} />
                 </a>
 
-                <div className="flex items-start gap-2 text-xs text-slate-400 font-light">
-                  <Clock size={14} className="text-amber-400 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2 text-xs text-stone-400 font-light">
+                  <Clock size={14} className="text-amber-500 shrink-0 mt-0.5" />
                   <span>Buka Senin - Sabtu (08.00 - 21.00 WIB) untuk konsultasi dimensi, layout, & estimasi desain.</span>
                 </div>
               </div>
@@ -89,9 +89,9 @@ export default function LandingPage() {
           </div>
 
           {/* Bottom Copyright */}
-          <div className="border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+          <div className="border-t border-stone-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
             <p>© {new Date().getFullYear()} PAPO3D — Custom Furniture 3D Design Studio. Seluruh hak cipta dilindungi.</p>
-            <p className="font-light text-slate-400">Presisi Konstruksi &bull; Estetis &bull; Siap Produksi</p>
+            <p className="font-light text-stone-500">Presisi Konstruksi &bull; Estetis &bull; Siap Produksi</p>
           </div>
         </div>
       </footer>
@@ -102,9 +102,9 @@ export default function LandingPage() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Konsultasi via WhatsApp"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white rounded-full flex items-center justify-center shadow-2xl shadow-emerald-500/30 hover:scale-110 active:scale-95 transition-all duration-300 group"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-emerald-700 hover:bg-emerald-800 text-white rounded-full flex items-center justify-center shadow-2xl shadow-emerald-950/20 hover:scale-110 active:scale-95 transition-all duration-300 group"
       >
-        <span className="absolute -inset-1 rounded-full bg-emerald-400/40 animate-ping pointer-events-none group-hover:hidden"></span>
+        <span className="absolute -inset-1 rounded-full bg-emerald-500/30 animate-ping pointer-events-none group-hover:hidden"></span>
         <MessageCircle size={28} className="relative z-10 fill-white stroke-none" />
       </a>
     </div>
