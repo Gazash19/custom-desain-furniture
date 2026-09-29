@@ -1,107 +1,136 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, MessageCircle } from 'lucide-react';
+import { Menu, X, MessageCircle, Sparkles, Box } from 'lucide-react';
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { name: 'Portofolio', href: '#portfolio' },
+    { name: 'Keunggulan', href: '#features' },
     { name: 'Layanan', href: '#services' },
     { name: 'Alur Kerja', href: '#process' },
-    { name: 'Kontak', href: '#contact' },
+    { name: 'Kontak Studio', href: '#contact' },
   ];
 
   return (
-    <nav className="fixed top-0 z-50 w-full bg-[#faf8f5]/90 backdrop-blur-md border-b border-stone-200/60 transition-all duration-300">
-      <div className="container mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
-        
-        {/* Brand Logo - Warm Japandi & Teak Wood style */}
-        <Link href="/" className="flex items-center space-x-2 group">
-          <span className="font-serif text-2xl tracking-tight text-stone-900 font-normal">
-            PAPO<span className="font-sans font-bold text-amber-800">3D</span>
-          </span>
-          <span className="hidden sm:inline-block text-[11px] uppercase tracking-widest text-stone-500 font-sans border-l border-stone-300 pl-2">
-            Desain Custom Furniture
-          </span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex h-full items-center space-x-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="px-4 py-2 text-[14px] font-medium text-stone-600 hover:text-amber-800 transition-colors"
-            >
-              {link.name}
-            </Link>
-          ))}
+    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 pt-4">
+      <div className={`container mx-auto max-w-7xl transition-all duration-300 ${
+        scrolled 
+          ? 'bg-slate-950/85 backdrop-blur-xl border border-slate-800/80 shadow-2xl shadow-black/40 rounded-2xl sm:rounded-full py-3 px-5 sm:px-7' 
+          : 'bg-slate-900/60 backdrop-blur-md border border-white/10 rounded-2xl sm:rounded-full py-3.5 px-5 sm:px-8'
+      }`}>
+        <div className="flex items-center justify-between">
           
-          <div className="pl-4 flex items-center gap-3">
-            {/* Direct WhatsApp CTA Button */}
+          {/* Brand Logo */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform duration-300">
+              <Box className="w-5 h-5 text-slate-950 stroke-[2.5]" />
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5 font-heading text-xl sm:text-2xl font-bold tracking-tight text-white">
+                <span>PAPO</span>
+                <span className="text-amber-400">3D</span>
+              </div>
+              <p className="text-[10px] uppercase tracking-widest text-slate-400 font-medium hidden sm:block">
+                Studio Desain Custom Mebel
+              </p>
+            </div>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="px-3.5 py-1.5 text-xs lg:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-full transition-all duration-200"
+              >
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Right Action */}
+          <div className="hidden md:flex items-center gap-3">
+            <div className="hidden xl:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Online Konsultasi</span>
+            </div>
+
             <a
               href="https://wa.me/qr/BMNBVD4FHIRNO1"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded-full transition-all shadow-xs"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-semibold text-slate-950 bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 rounded-full shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 hover:scale-105 active:scale-95 transition-all duration-200"
             >
-              <MessageCircle size={15} />
+              <MessageCircle size={16} className="fill-slate-950 stroke-none" />
               <span>Chat WhatsApp</span>
             </a>
           </div>
-        </div>
 
-        {/* Mobile Hamburger Toggle Button */}
-        <div className="flex md:hidden items-center gap-2">
-          <a
-            href="https://wa.me/qr/BMNBVD4FHIRNO1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 text-xs font-semibold bg-emerald-700 text-white rounded-full flex items-center justify-center"
-            title="Chat WhatsApp"
-          >
-            <MessageCircle size={16} />
-          </a>
-
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2.5 rounded-lg text-stone-700 hover:text-amber-800 hover:bg-stone-100 transition-colors focus:outline-none"
-            aria-label="Toggle navigation menu"
-          >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu Dropdown / Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-[#faf8f5] border-b border-stone-200 shadow-xl px-5 py-6 space-y-3 animate-in slide-in-from-top-4 duration-200">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2.5 rounded-lg text-base font-medium text-stone-700 hover:bg-stone-100 hover:text-amber-800 transition-colors"
-            >
-              {link.name}
-            </Link>
-          ))}
-          <div className="pt-3 border-t border-stone-200">
+          {/* Mobile Actions */}
+          <div className="flex md:hidden items-center gap-2">
             <a
               href="https://wa.me/qr/BMNBVD4FHIRNO1"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-2.5 bg-emerald-700 text-white rounded-xl text-sm font-semibold shadow-xs"
+              aria-label="Chat WhatsApp"
+              className="w-9 h-9 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 flex items-center justify-center shadow-md active:scale-95"
             >
-              <MessageCircle size={17} />
-              <span>Hubungi via WhatsApp</span>
+              <MessageCircle size={17} className="fill-slate-950 stroke-none" />
             </a>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition-colors focus:outline-none"
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </div>
+
         </div>
-      )}
-    </nav>
+
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden mt-4 pt-4 border-t border-slate-800/80 space-y-2 pb-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-white/5 hover:text-amber-400 transition-colors"
+              >
+                {link.name}
+              </Link>
+            ))}
+            <div className="pt-2">
+              <a
+                href="https://wa.me/qr/BMNBVD4FHIRNO1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 rounded-xl text-sm font-bold shadow-lg"
+              >
+                <MessageCircle size={18} className="fill-slate-950 stroke-none" />
+                <span>Konsultasi Cepat WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        )}
+      </div>
+    </header>
   );
 }
+

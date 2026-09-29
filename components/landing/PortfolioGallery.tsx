@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { dummyPortfolios } from "@/lib/data-dummy";
-import { MessageCircle, X, Sparkles, ArrowUpRight } from "lucide-react";
+import { MessageCircle, X, Sparkles, ArrowUpRight, Layers, Eye, Cpu, Compass } from "lucide-react";
 import { formatImageUrl } from "@/lib/utils";
 
 interface Portfolio {
@@ -16,11 +16,11 @@ interface Portfolio {
 }
 
 const categoryTabs = [
-  { id: "Semua", label: "Semua" },
+  { id: "Semua", label: "Semua Karya" },
   { id: "Living", label: "Ruang Tamu" },
   { id: "Dining", label: "Ruang Makan" },
   { id: "Bedroom", label: "Kamar Tidur" },
-  { id: "Kitchen", label: "Dapur & Kitchen" },
+  { id: "Kitchen", label: "Kitchen Set" },
   { id: "Commercial", label: "Komersial & Kafe" },
 ];
 
@@ -68,32 +68,35 @@ export function PortfolioGallery() {
     : portfolios.filter(p => p.category.toLowerCase() === activeCategory.toLowerCase());
 
   return (
-    <section id="portfolio" className="py-24 sm:py-28 bg-[#faf8f5]">
-      <div className="container mx-auto px-4 sm:px-6">
+    <section id="portfolio" className="py-24 sm:py-28 bg-[#0B0F17] relative">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6">
         
-        {/* Section Header - Clean & Minimalist */}
-        <div className="text-center mb-14 sm:mb-18 max-w-2xl mx-auto">
-          <p className="text-xs uppercase tracking-widest text-amber-800 font-semibold mb-3">Galeri Karya</p>
-          <h2 className="font-serif text-3xl sm:text-5xl font-normal text-stone-900 tracking-tight mb-4">
-            Portofolio Desain Custom
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold uppercase tracking-wider mb-3">
+            <Layers size={13} />
+            <span>Koleksi Render & Gambar Kerja</span>
+          </div>
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4">
+            Galeri Portofolio Pilihan
           </h2>
-          <p className="text-stone-600 text-sm sm:text-base font-light leading-relaxed">
-            Kumpulan hasil rancangan desain mebel custom dan visualisasi 3D yang dirancang dengan detail proporsi kayu serta material autentik.
+          <p className="text-slate-400 text-sm sm:text-base font-light leading-relaxed">
+            Eksplorasi ragam rancangan mebel kustom, visualisasi 3D fotorealistis, dan gambar kerja teknis presisi tinggi.
           </p>
         </div>
 
-        {/* Minimalist Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-14 sm:mb-16">
+        {/* Category Filter Pills (Modern Bootstrap Agency Style) */}
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-2.5 mb-14">
           {categoryTabs.map((tab) => {
             const isActive = activeCategory === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveCategory(tab.id)}
-                className={`px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 ${
+                className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 ${
                   isActive 
-                    ? "bg-stone-900 text-white shadow-sm" 
-                    : "bg-white text-stone-600 border border-stone-200/80 hover:border-stone-400 hover:text-stone-900"
+                    ? "bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold shadow-lg shadow-amber-500/20 scale-105" 
+                    : "bg-slate-900/80 text-slate-300 border border-slate-800 hover:border-slate-600 hover:text-white"
                 }`}
               >
                 {tab.label}
@@ -102,132 +105,162 @@ export function PortfolioGallery() {
           })}
         </div>
 
-        {/* Big & Clean Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+        {/* Portfolio Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
           {filteredPortfolios.map((item) => {
-            const rawThumb = item.images && item.images.length > 0 ? item.images[0] : "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=1200";
-            const imageSrc = formatImageUrl(rawThumb);
-
+            const displayImg = formatImageUrl(item.images?.[0] || 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc');
+            
             return (
               <div 
-                key={item.id} 
+                key={item.id}
                 onClick={() => setSelectedItem(item)}
-                className="group relative rounded-2xl bg-white overflow-hidden border border-stone-200/70 shadow-2xs hover:shadow-xl hover:-translate-y-1 transition-all duration-500 cursor-pointer flex flex-col justify-between"
+                className="group cursor-pointer rounded-2xl overflow-hidden bg-slate-900/60 border border-slate-800/80 hover:border-amber-500/50 hover:shadow-2xl hover:shadow-amber-500/10 transition-all duration-300 flex flex-col justify-between"
               >
-                {/* Large Photo Showcase */}
-                <div className="relative aspect-[16/11] overflow-hidden bg-stone-100">
+                {/* Image Container with Aspect Ratio */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-950">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
-                    src={imageSrc} 
-                    alt={item.title}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                    src={displayImg} 
+                    alt={item.title} 
                     loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 ease-out"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=800';
+                    }}
                   />
                   
-                  {/* Clean Category Badge */}
-                  <div className="absolute top-4 left-4 z-10">
-                    <span className="px-3 py-1 text-[11px] font-medium tracking-wide rounded-full bg-stone-950/70 text-white backdrop-blur-md">
-                      {item.category}
+                  {/* Hover Overlay with Action Button */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-amber-500/90 px-3.5 py-1.5 rounded-full backdrop-blur-md">
+                      <Eye size={14} />
+                      <span>Lihat Detail Desain</span>
                     </span>
                   </div>
 
-                  {/* Corner View Icon on Hover */}
-                  <div className="absolute bottom-4 right-4 z-10 w-9 h-9 rounded-full bg-white text-stone-900 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
-                    <ArrowUpRight size={18} />
+                  {/* Category Badge */}
+                  <div className="absolute top-3.5 left-3.5">
+                    <span className="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide bg-slate-950/80 backdrop-blur-md text-amber-300 border border-amber-500/30">
+                      {item.category}
+                    </span>
                   </div>
                 </div>
 
-                {/* Clean & Elegant Caption */}
-                <div className="p-6 space-y-2">
-                  <div className="flex items-center justify-between text-xs text-stone-500 font-light">
-                    <span>{item.style}</span>
-                    <span>{item.softwareUsed || '3ds Max & Corona'}</span>
-                  </div>
-                  <h3 className="font-serif text-xl sm:text-2xl text-stone-900 group-hover:text-amber-800 transition-colors font-normal leading-snug">
-                    {item.title}
-                  </h3>
-                  {item.description && (
-                    <p className="text-stone-500 text-xs sm:text-sm font-light line-clamp-2 leading-relaxed pt-1">
-                      {item.description}
+                {/* Card Content */}
+                <div className="p-5 sm:p-6 flex flex-col justify-between flex-1">
+                  <div>
+                    <h3 className="font-heading text-lg sm:text-xl font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-1 mb-2">
+                      {item.title}
+                    </h3>
+                    
+                    <p className="text-slate-400 text-xs sm:text-sm font-light line-clamp-2 leading-relaxed mb-4">
+                      {item.description || 'Desain furnitur custom presisi lengkap dengan detail konstruksi siap bengkel.'}
                     </p>
-                  )}
+                  </div>
+
+                  <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                    <span className="font-medium text-slate-300">{item.style || 'Modern Custom'}</span>
+                    <span className="inline-flex items-center gap-1 text-amber-400 font-semibold group-hover:translate-x-0.5 transition-transform">
+                      <span>Detail</span>
+                      <ArrowUpRight size={14} />
+                    </span>
+                  </div>
                 </div>
               </div>
             );
           })}
         </div>
 
-      </div>
-
-      {/* Clean Modal Lightbox Preview */}
-      {selectedItem && (
-        <div 
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setSelectedItem(null);
-          }}
-          className="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
-        >
-          <div className="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200 flex flex-col my-auto max-h-[90vh]">
-            
-            {/* Modal Image Header */}
-            <div className="relative bg-stone-950 w-full overflow-hidden flex items-center justify-center max-h-[48vh] sm:max-h-[52vh]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src={formatImageUrl(selectedItem.images[0])} 
-                alt={selectedItem.title} 
-                referrerPolicy="no-referrer"
-                className="w-full h-full max-h-[48vh] sm:max-h-[52vh] object-contain sm:object-cover" 
-              />
-              <button
+        {/* Lightbox / Detail Modal */}
+        {selectedItem && (
+          <div 
+            className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200"
+            onClick={() => setSelectedItem(null)}
+          >
+            <div 
+              className="bg-slate-900 border border-slate-800 rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button 
                 onClick={() => setSelectedItem(null)}
-                className="absolute top-4 right-4 p-2.5 rounded-full bg-stone-900/80 hover:bg-stone-900 text-white transition-all shadow-md z-20"
-                aria-label="Tutup"
+                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-slate-950/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center transition-colors border border-white/10"
+                aria-label="Tutup popup"
               >
                 <X size={20} />
               </button>
-              <div className="absolute bottom-4 left-5 z-10">
-                <span className="px-3.5 py-1.5 rounded-full bg-stone-900/85 text-white text-xs font-medium backdrop-blur-md shadow-md">
-                  {selectedItem.category} &bull; {selectedItem.style}
-                </span>
+
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                {/* Modal Image */}
+                <div className="relative aspect-[4/3] md:aspect-auto md:h-full bg-slate-950">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img 
+                    src={formatImageUrl(selectedItem.images?.[0] || '')} 
+                    alt={selectedItem.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=800';
+                    }}
+                  />
+                  <div className="absolute bottom-3 left-3">
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-950/80 text-amber-300 border border-amber-500/30">
+                      {selectedItem.category}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Modal Detail Info */}
+                <div className="p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                  <div className="space-y-4">
+                    <div>
+                      <span className="text-xs font-semibold uppercase tracking-widest text-amber-400">
+                        {selectedItem.style || 'Custom Woodcraft'}
+                      </span>
+                      <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white mt-1">
+                        {selectedItem.title}
+                      </h3>
+                    </div>
+
+                    <p className="text-slate-300 text-sm sm:text-base font-light leading-relaxed">
+                      {selectedItem.description || 'Desain 3D custom mebel dengan skala presisi tinggi. Dapat dipesan dengan penyesuaian dimensi dan material sesuai ukuran ruangan Anda.'}
+                    </p>
+
+                    <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-2 text-xs">
+                      <div className="flex items-center justify-between text-slate-400">
+                        <span className="flex items-center gap-1.5">
+                          <Cpu size={14} className="text-amber-400" />
+                          <span>Software Visualisasi:</span>
+                        </span>
+                        <span className="text-slate-200 font-medium">{selectedItem.softwareUsed || '3ds Max, Corona'}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-slate-400">
+                        <span className="flex items-center gap-1.5">
+                          <Compass size={14} className="text-amber-400" />
+                          <span>Status Gambar:</span>
+                        </span>
+                        <span className="text-emerald-400 font-medium">Siap Gambar Kerja (PDF)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Order via WhatsApp Action Button */}
+                  <div className="pt-4 border-t border-slate-800">
+                    <a
+                      href={`https://wa.me/qr/BMNBVD4FHIRNO1?text=${encodeURIComponent(`Halo PAPO3D, saya tertarik dengan model desain: "${selectedItem.title}" (${selectedItem.category}). Bisa konsultasi penyesuaian ukuran dan biayanya?`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2.5 w-full py-3.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-sm shadow-xl shadow-amber-500/20 transition-all hover:scale-102"
+                    >
+                      <MessageCircle size={18} className="fill-slate-950 stroke-none" />
+                      <span>Pesan / Konsultasi Model Ini via WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
-
-            {/* Modal Body */}
-            <div className="p-5 sm:p-7 overflow-y-auto space-y-4">
-              <div>
-                <h3 className="font-serif text-2xl sm:text-3xl text-stone-900 font-normal">{selectedItem.title}</h3>
-                <p className="text-xs sm:text-sm text-stone-500 mt-1 font-light">
-                  Software Desain: <span className="font-medium text-stone-700">{selectedItem.softwareUsed || '3ds Max, Corona Renderer'}</span>
-                </p>
-              </div>
-
-              {selectedItem.description && (
-                <p className="text-sm text-stone-600 leading-relaxed bg-stone-50 p-4 rounded-2xl border border-stone-200/70 font-light">
-                  {selectedItem.description}
-                </p>
-              )}
-
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-stone-100">
-                <p className="text-xs text-stone-500 font-light">
-                  Ingin membuat desain furnitur dengan konsep serupa?
-                </p>
-                <a
-                  href="https://wa.me/qr/BMNBVD4FHIRNO1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-3 rounded-full text-xs sm:text-sm font-semibold transition-all shadow-md"
-                >
-                  <MessageCircle size={16} />
-                  <span>Konsultasikan via WhatsApp</span>
-                </a>
-              </div>
-            </div>
-
           </div>
-        </div>
-      )}
+        )}
 
+      </div>
     </section>
   );
 }
