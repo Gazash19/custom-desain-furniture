@@ -1,9 +1,16 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { db } from '@/db';
-import { portfolios } from '@/db/schema';
+import { db } from '@/lib/firebase';
+import { 
+  collection, 
+  getDocs, 
+  addDoc, 
+  deleteDoc, 
+  doc, 
+  query, 
+  orderBy 
+} from 'firebase/firestore';
 import { dummyPortfolios } from '@/lib/data-dummy';
-import { desc, eq } from 'drizzle-orm';
 import { verifySessionToken, ADMIN_COOKIE_NAME } from '@/lib/auth';
 
 /**
@@ -30,15 +37,33 @@ async function getAdminToken(request: Request): Promise<string | undefined> {
 
 export async function GET() {
   try {
-    const data = await db.select().from(portfolios).orderBy(desc(portfolios.createdAt));
-    
-    if (data.length === 0) {
+    const colRef = collection(db, 'portfolios');
+    const q = query(colRef, orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
       return NextResponse.json(dummyPortfolios);
     }
-    
-    return NextResponse.json(data);
-  } catch (dbError) {
-    console.error('Database connection error in portfolios GET:', dbError);
+
+    const items = snapshot.docs.map(docSnap => {
+      const data = docSnap.data();
+      return {
+        id: docSnap.id,
+        title: data.title || '',
+        slug: data.slug || '',
+        category: data.category || '',
+        style: data.style || '',
+        softwareUsed: data.softwareUsed || data.software_used || '',
+        images: Array.isArray(data.images) ? data.images : [],
+        description: data.description || '',
+        isFeatured: Boolean(data.isFeatured ?? data.is_featured),
+        createdAt: data.createdAt || null,
+      };
+    });
+
+    return NextResponse.json(items);
+  } catch (error) {
+    console.error('Error fetching portfolios from Firestore:', error);
     return NextResponse.json(dummyPortfolios);
   }
 }
@@ -66,7 +91,7 @@ export async function POST(request: Request) {
     const slug = `${baseSlug}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const images = imageUrl ? [imageUrl] : ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=800'];
 
-    const newPortfolio = await db.insert(portfolios).values({
+    const newPortfolio = {
       title: title.trim(),
       slug,
       category,
@@ -75,11 +100,17 @@ export async function POST(request: Request) {
       images,
       description: description?.trim() || '',
       isFeatured: true,
-    }).returning();
+      createdAt: new Date().toISOString(),
+    };
 
-    return NextResponse.json({ success: true, data: newPortfolio[0] }, { status: 201 });
+    const docRef = await addDoc(collection(db, 'portfolios'), newPortfolio);
+
+    return NextResponse.json(
+      { success: true, data: { id: docRef.id, ...newPortfolio } },
+      { status: 201 }
+    );
   } catch (error: any) {
-    console.error('Error inserting portfolio:', error);
+    console.error('Error inserting portfolio to Firestore:', error);
     return NextResponse.json(
       { error: error?.message || 'Gagal menambahkan portofolio ke database' },
       { status: 500 }
@@ -106,17 +137,14 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'ID portofolio dibutuhkan' }, { status: 400 });
     }
 
-    // Validasi apakah id berupa UUID valid (karena kolom id di database bertipe UUID)
-    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
-
-    if (isUuid) {
-      await db.delete(portfolios).where(eq(portfolios.id, id));
+    // Jika bukan ID dummy lokal (p1, p2, p3), hapus dari Firestore
+    if (!id.startsWith('p')) {
+      await deleteDoc(doc(db, 'portfolios', id));
     }
 
-    // Jika bukan UUID (misalnya item dummy bawaan p1/p2), kembalikan success agar UI langsung menghapusnya
     return NextResponse.json({ success: true, message: 'Portofolio berhasil dihapus' });
   } catch (error: any) {
-    console.error('Error deleting portfolio:', error);
+    console.error('Error deleting portfolio from Firestore:', error);
     return NextResponse.json(
       { error: error?.message || 'Gagal menghapus portofolio' },
       { status: 500 }

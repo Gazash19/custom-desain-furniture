@@ -34,6 +34,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# temporary scratch files
+/scratch/
+
 # typescript
 *.tsbuildinfo
 
